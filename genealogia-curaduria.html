@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genealogía de la curaduría</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafaf7;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #5e5e5e;
+  --text-faint: #9a9a9a;
+  --border: #e5e3dd;
+  --border-strong: #c8c6bf;
+  --accent: #3a4856;
+  --accent-soft: rgba(58, 72, 86, 0.04);
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  padding: 1.5rem 1rem;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4vw, 2.4rem);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+.subtitle {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 64ch;
+  line-height: 1.55;
+}
+
+.section-divider {
+  margin: 2.5rem 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  height: 1px;
+  background: var(--border);
+  flex: 1;
+}
+
+.section-divider span {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+/* === MOBILE FIRST: cards === */
+
+.row {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.25rem 1.1rem;
+  margin-bottom: 0.85rem;
+}
+
+.row.etymo {
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+}
+
+.cell {
+  display: block;
+  margin-bottom: 1.1rem;
+}
+
+.cell:last-child {
+  margin-bottom: 0;
+}
+
+.cell-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.45rem;
+  display: block;
+  font-weight: 500;
+}
+
+.period-tag {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-bottom: 0.35rem;
+}
+
+.period-meta {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.cell-statement {
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--text);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+.cell-statement em {
+  font-style: italic;
+}
+
+.cell-cases {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.cell-cases ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cell-cases li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.55rem;
+}
+
+.cell-cases li::before {
+  content: "·";
+  position: absolute;
+  left: 0.3rem;
+  top: -0.05rem;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.cell-cases li:last-child {
+  margin-bottom: 0;
+}
+
+.cell-cases em {
+  color: var(--text);
+  font-style: italic;
+}
+
+.cell-cases strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.table-header {
+  display: none;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  text-align: left;
+  line-height: 1.65;
+}
+
+footer p {
+  margin-bottom: 0.4rem;
+}
+
+/* === DESKTOP === */
+@media (min-width: 820px) {
+  body {
+    padding: 2.5rem 2rem;
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 200px 1fr 1.35fr;
+    gap: 2rem;
+    padding: 0 1.5rem 0.75rem;
+    border-bottom: 1px solid var(--border-strong);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1.35fr;
+    gap: 2rem;
+    padding: 1.75rem 1.5rem;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    margin-bottom: 0;
+  }
+
+  .row.etymo {
+    background: var(--accent-soft);
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+
+  .cell {
+    margin-bottom: 0;
+  }
+
+  .cell-label {
+    display: none;
+  }
+
+  .period-tag {
+    font-size: 0.98rem;
+  }
+
+  .period-meta {
+    font-size: 0.72rem;
+  }
+
+  .cell-statement {
+    font-size: 1.02rem;
+  }
+
+  .cell-cases {
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  body {
+    padding: 3rem 2rem;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Genealogía de la curaduría</h1>
+  <p class="subtitle">Historia cronológica de la práctica curatorial: desde la raíz etimológica latina hasta el giro curatorial contemporáneo. Vocación global desde el inicio.</p>
+</header>
+
+<div class="section-divider"><span>I · Etimología</span></div>
+
+<div class="table-header">
+  <span>Período</span>
+  <span>Enunciado</span>
+  <span>Casos / ejemplos</span>
+</div>
+
+<!-- E1 -->
+<div class="row etymo">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Raíz latina</span>
+    <span class="period-meta">cura, -ae<br>curare · curator</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    El sustantivo latino <em>cura, curae</em> designa cuidado, atención, gestión y desvelo. La proyección protoindoeuropea es debatida, por lo que el latín constituye el punto de origen documentable. Del sustantivo derivan en latín clásico el verbo <em>curare</em>, el sustantivo <em>curatio</em> y el agente <em>curator</em>, cuyo sufijo <em>-tor</em> inscribe a la figura desde su origen en el campo de la responsabilidad delegada antes que en el del cuidado afectivo difuso.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>De Vaan, <em>Etymological Dictionary of Latin and the Other Italic Languages</em> (Brill, 2008): registra incertidumbre sobre la base indoeuropea</li>
+      <li>Cicerón emplea <em>cura</em> simultáneamente para administración pública y desvelo personal</li>
+      <li>Sufijo agente <em>-tor</em> (cf. <em>orator</em>, <em>doctor</em>, <em>gestor</em>): inscribe al <em>curator</em> como cargo de función pública</li>
+    </ul>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="row etymo">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Familia léxica</span>
+    <span class="period-meta">tres vectores<br>desde el latín clásico</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    Tres vectores semánticos coexisten desde los primeros usos documentados: jurídico-administrativo (el <em>curator</em> como cargo público o tutor de incapaces), médico-terapéutico (<em>curare</em> como sanar, base de la familia romance médica) y eclesiástico tardo-antiguo (<em>curatus</em> como clérigo encargado de la <em>cura animarum</em>). Estos tres campos seguirán activos en todas las derivaciones romances y modernas, y constituyen el palimpsesto que el término curatorial contemporáneo arrastra sin tematizar.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li><em>Curator aquarum</em>, <em>viarum</em>, <em>annonae</em>: cargos públicos romanos de gestión de infraestructura</li>
+      <li><em>Curare</em> como tratamiento médico, raíz de curar, curación, curandero, curativo</li>
+      <li><em>Cura animarum</em>: cuidado pastoral medieval; raíz del «cura» (sacerdote) y «curato»</li>
+      <li><em>Pro-curare</em>: deriva en procurador, procuraduría</li>
+      <li><em>Sine cura</em> (sin preocupación): formación negativa de la que procede «seguro»</li>
+    </ul>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="row etymo">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Castellano</span>
+    <span class="period-meta">curador · curaduría<br>siglos XIII–XXI</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    El sustantivo «curador» entra al castellano medieval como tecnicismo del derecho civil (tutor designado para administrar bienes de menores, dementes o pródigos). La acepción artística contemporánea es un calco semántico tardío del inglés <em>curator</em>, incorporado al español latinoamericano hacia los años setenta y ochenta del siglo XX. España resistió el calco con «comisariado» (del francés <em>commissaire d'exposition</em>) y la disputa léxica entre comisariado peninsular y curaduría latinoamericana persiste hoy. Falso pariente: «cuidar» no procede de <em>curare</em> sino del latín <em>cogitare</em>.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>El DRAE recoge la acepción jurídica de curador (tutor) como acepción primaria histórica</li>
+      <li>Corominas y Pascual establecen la procedencia de «cuidar» desde <em>cogitare</em>, no desde <em>curare</em></li>
+      <li>Comisariado peninsular: calco del francés <em>commissaire d'exposition</em>, vigente en España</li>
+      <li>«Curaduría» se consolida en circuitos latinoamericanos de bienales, museos y revistas especializadas desde los años 70-80</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-divider"><span>II · Genealogía cronológica</span></div>
+
+<div class="table-header">
+  <span>Período</span>
+  <span>Enunciado</span>
+  <span>Casos / ejemplos</span>
+</div>
+
+<!-- M1 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Roma antigua</span>
+    <span class="period-meta">s. III a.C. – V d.C.<br>cura como cargo</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    El término <em>curator</em> nace como cargo administrativo del derecho público romano, no como figura asociada al arte. La <em>cura</em> designa simultáneamente gestión técnica de una <em>res</em>, tutela jurídica del incapaz y cuidado afectivo. Tres sentidos que se decantan en latín y constituyen el sustrato del que toda curaduría posterior extraerá su autoridad y su ambivalencia.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Sexto Julio Frontino, <em>curator aquarum</em> bajo Nerva (c. 97 d.C.); deja constancia de sus funciones en <em>De aquaeductu urbis Romae</em></li>
+      <li><em>Curatores viarum</em>, <em>annonae</em>, <em>rei publicae</em>: cargos imperiales para vías, abastecimiento de grano y supervisión municipal</li>
+      <li><em>Curator furiosi</em>, <em>curator minoris</em>: tutela jurídica del demente y del menor en el derecho romano</li>
+      <li><em>Digesto</em> de Justiniano (533 d.C.) sistematiza estas figuras y las hereda al derecho occidental</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M2 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Mundo medieval global</span>
+    <span class="period-meta">s. VI – XV<br>custodia y guarda</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    El término <em>cura</em> se desplaza al ámbito eclesiástico (<em>cura animarum</em>) mientras civilizaciones que no se conocen entre sí desarrollan figuras institucionales especializadas en custodiar acervos sagrados, letrados y suntuarios. La práctica curatorial existe largamente antes del término moderno y fuera del eje europeo: cualquier genealogía honesta debe registrar esta prelación.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Derecho canónico medieval: <em>cura animarum</em> y figura del <em>thesaurarius</em> o <em>custos</em> catedralicio</li>
+      <li>Bayt al-Ḥikma de Bagdad bajo al-Ma'mūn (r. 813–833): figura del <em>khāzin al-kutub</em> como custodio de libros; institución del <em>waqf</em> como infraestructura jurídica de la colección</li>
+      <li>Mi Fu (1051–1107) en la dinastía Song: <em>Huà Shǐ</em>, primer tratado sistemático de connoisseurship pictórico chino</li>
+      <li>Catálogo <em>Xuanhe Huapu</em> de la colección imperial china, compilado bajo el emperador Huizong (c. 1120)</li>
+      <li>Shōsōin del Tōdai-ji en Nara, fundado en 756: inventarios monásticos exhaustivos del tesoro imperial</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M3 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Coleccionismo principesco</span>
+    <span class="period-meta">s. XVI – XVII<br>gabinetes y conocedores</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    Proliferan en geografías globales espacios organizados de colección con lógicas epistémicas explícitas: <em>Wunderkammern</em> europeas, colecciones imperiales mogol, otomana, safávida y china. La figura del conocedor-coleccionista emerge como tipo social transcontinental. Las funciones que más tarde se llamarán curatoriales se distribuyen entre custodios, eruditos, secretarios de gabinete y los propios coleccionistas.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Samuel Quiccheberg, <em>Inscriptiones vel tituli theatri amplissimi</em> (Múnich, 1565): primer tratado teórico de organización de colecciones</li>
+      <li>Athanasius Kircher en el Collegio Romano: gabinete jesuita global alimentado por redes misionales</li>
+      <li>Xiang Yuanbian (1525–1590) en la China Ming: práctica del <em>jiancang yin</em> (sellos de coleccionista) como sistema de procedencia</li>
+      <li>Jahangir mogol (r. 1605–1627): connoisseurship de pintura del taller imperial documentado en el <em>Tūzuk-i-Jahāngīrī</em></li>
+      <li>Tesoro otomano (<em>hazine</em>) de Topkapı bajo custodia del <em>hazinedar</em>: protocolos estrictos de inventario y guarda</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M4 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Museo público ilustrado</span>
+    <span class="period-meta">s. XVIII – XIX<br>keeper · conservateur</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    La Ilustración convierte la colección principesca en patrimonio público bajo régimen estatal. Surgen las primeras instituciones modernas de exhibición sistemática y la figura del custodio profesional remunerado: el <em>keeper</em> británico, el <em>conservateur</em> francés. La universalización del modelo museal acompaña la expansión imperial europea y produce instituciones-réplica en territorios coloniales y poscoloniales tempranos.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Museo Británico (fundado 1753, abierto al público 1759): figura del <em>keeper</em> desde su origen</li>
+      <li>Muséum central des arts (Louvre, abierto al público en 1793 durante la Revolución Francesa)</li>
+      <li>Altes Museum de Berlín (Schinkel, 1830): consagración del modelo neoclásico de templo del arte</li>
+      <li>Museos coloniales y poscoloniales tempranos: Indian Museum de Calcuta (1814); Museo Egipcio del Cairo bajo Auguste Mariette (1858)</li>
+      <li>América Latina: Museo Nacional del Perú creado por Bolívar (1826); Museo Nacional de México (1825)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M5 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Profesionalización museal</span>
+    <span class="period-meta">fines s. XIX – inicios XX<br>connoisseurship</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    La consolidación del museo como institución académica genera una capa profesional especializada en atribución, datación y autenticación de obras. El connoisseurship aspira a estatus científico mediante metodologías formalistas y filológicas. La curaduría se entiende todavía como erudición técnica al servicio de la institución, no como autoría: el curador es el experto que sabe, no el autor que propone.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Giovanni Morelli (1816–1891): método morfológico de atribución basado en detalles anatómicos</li>
+      <li>Bernard Berenson (1865–1959): atribución sistemática de la pintura del Renacimiento italiano</li>
+      <li>Wilhelm von Bode dirige los museos de Berlín y consolida la capital museal alemana en torno a 1900</li>
+      <li>Aby Warburg funda en Hamburgo la <em>Bibliothek Warburg</em> (institucionalizada hacia 1921): nueva infraestructura de saber para historia del arte</li>
+      <li>Fundación del ICOM (International Council of Museums) en 1946: cierre institucional de este largo proceso de profesionalización</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M6 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Curaduría modernista autoral</span>
+    <span class="period-meta">1929 – 1960s<br>la exposición como argumento</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    Con la fundación del MoMA y la proliferación de museos de arte moderno, emerge el curador como figura autoral cuyo montaje propone un canon y una historia. La exposición deja de ser exhibición de un acervo y se vuelve argumento historiográfico. El curador-director construye narrativas del modernismo con vocación didáctica y pedagógica.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Alfred H. Barr Jr. (1902–1981) dirige el MoMA desde su fundación en 1929; el diagrama <em>Cubism and Abstract Art</em> (1936) organiza el modernismo como árbol genealógico</li>
+      <li>Documenta de Arnold Bode (Kassel, primera edición 1955): reintegración de la modernidad alemana al circuito internacional de posguerra</li>
+      <li><em>The Family of Man</em> curada por Edward Steichen en MoMA (1955): exposición fotográfica como argumento humanista universal</li>
+      <li>Pontus Hultén dirige el Moderna Museet de Estocolmo (1958–1973): museo como espacio experimental</li>
+      <li>América Latina: Bienal de São Paulo desde 1951; Jorge Romero Brest dirige el Centro de Artes Visuales del Instituto Di Tella en Buenos Aires (1963–1970)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M7 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Curador independiente</span>
+    <span class="period-meta">1969 – 1980s<br>autoría fuera del museo</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    La curaduría se separa físicamente del museo y emerge como práctica autoral autónoma con vocación crítica respecto a la institución. El curador se vuelve agente creativo, figura pública y autor reconocido. Esta autonomización coincide con el arte conceptual, la dematerialización del objeto y la pregunta sobre los límites del marco institucional artístico.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Harald Szeemann, <em>When Attitudes Become Form</em> (Kunsthalle Berna, 1969); luego Documenta 5 (1972), primera Documenta plenamente autoral</li>
+      <li>Lucy Lippard, <em>Number Shows</em> (557.087, 955.000, etc.) desde 1969: curaduría conceptual itinerante y feminista</li>
+      <li>Seth Siegelaub, <em>Xerox Book</em> (1968) y la exposición sin espacio físico para el arte conceptual</li>
+      <li>Walter Hopps en Estados Unidos: Pasadena Art Museum, Menil Collection</li>
+      <li>Jorge Glusberg funda el CAYC (Centro de Arte y Comunicación) en Buenos Aires (1968-1969): curaduría conceptual del Sur con proyección internacional</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M8 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Bienalización y giro global</span>
+    <span class="period-meta">1989 – 2000s<br>curaduría planetaria</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    1989 funciona como umbral simbólico: caída del Muro y exposición <em>Magiciens de la Terre</em> abren un campo curatorial reorientado hacia la circulación global, la inclusión post-occidental y la proliferación de bienales en el sur global. La curaduría se vuelve diplomática, política y cosmopolita. Surgen los primeros programas formativos especializados, profesionalizando la figura del curador-académico.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li><em>Magiciens de la Terre</em> (Jean-Hubert Martin, Centre Pompidou y Grande Halle de la Villette, 1989): controvertido pivote post-occidental</li>
+      <li>Bienal de La Habana (fundada 1984; tercera edición de 1989 consolida modelo del Sur global)</li>
+      <li>Documenta 11 (Okwui Enwezor, 2002) con sus cinco <em>platforms</em> descentradas geográficamente</li>
+      <li>Programas formativos: CCS Bard (centro 1990, posgrado 1994); De Appel Curatorial Programme (Saskia Bos, 1994); Royal College of Art Curating Contemporary Art</li>
+      <li>Proliferación de bienales: Estambul (1987), Sharjah (1993), Gwangju (1995), Mercosul (1997), Manifesta itinerante (1996)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- M9 -->
+<div class="row">
+  <div class="cell">
+    <span class="cell-label">Período</span>
+    <span class="period-tag">Giro curatorial</span>
+    <span class="period-meta">2007 – presente<br>lo curatorial como dispositivo</span>
+  </div>
+  <div class="cell cell-statement">
+    <span class="cell-label">Enunciado</span>
+    La teoría curatorial diferencia <em>curating</em> (la práctica profesional de hacer exposiciones) de <em>the curatorial</em> (un dispositivo discursivo y político autónomo). Proliferan curadurías decoloniales, paracurátoriales, colectivas, activistas. Paralelamente, <em>curation</em> se desborda hacia el consumo y los algoritmos de las plataformas. La crisis institucional contemporánea (controversias en Documenta, debates de restitución) tensiona el campo desde dentro.
+  </div>
+  <div class="cell cell-cases">
+    <span class="cell-label">Casos</span>
+    <ul>
+      <li>Paul O'Neill, «The Curatorial Turn: From Practice to Discourse» (2007); luego <em>The Culture of Curating and the Curating of Culture(s)</em> (MIT Press, 2012)</li>
+      <li>Beatrice von Bismarck, Maria Lind, Irit Rogoff: el debate teórico sobre <em>the curatorial</em></li>
+      <li>Documenta 14 (Adam Szymczyk, 2017, Atenas-Kassel); Documenta fifteen (ruangrupa, 2022): curaduría colectiva del Sur global y crisis de gobernanza</li>
+      <li>56ª Bienal de Venecia, <em>All the World's Futures</em> (Okwui Enwezor, 2015)</li>
+      <li>«Curation» algorítmica: Spotify, Netflix, redes sociales reapropian el término como recomendación automatizada de consumo</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <p>Genealogía de la curaduría · documento de trabajo · neutral teórico</p>
+  <p>Vocación global desde el inicio · estructura: período / enunciado / casos-ejemplo</p>
+</footer>
+
+</div>
+</body>
+</html>
